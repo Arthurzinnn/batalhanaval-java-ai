@@ -66,7 +66,46 @@ public class Application{
 				else if(direcaoBarco[i].equals("h") && Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1))) > 8-tamanhoBarco[i])
 					System.out.println("Posição inválida");
 				else
-					break;
+				{
+					
+					if(direcaoBarco[i].equals("v"))
+					{
+						
+						for(int j = 0; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1+tamanhoBarco[i]; j++)
+						{
+							
+							if(mapa[j][Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1] != null)
+							{
+								
+								System.out.println("Posição inválida");
+								
+								break;
+								
+							}
+							
+						}
+						
+					}
+					else if(direcaoBarco[i].equals("h"))
+					{
+						
+						for(int j = 0; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1+tamanhoBarco[i]; j++)
+						{
+							
+							if(mapa[Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1][j] != null)
+							{
+								
+								System.out.println("Posição inválida");
+								
+								break;
+								
+							}
+							
+						}
+						
+					}
+					
+				}
 				
 			}
 			
@@ -102,7 +141,6 @@ public class Application{
 					if(mapa[j][k] == null)
 						System.out.print("~");
 					else
-					
 						System.out.print(mapa[j][k]);
 					
 				}
