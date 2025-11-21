@@ -6,19 +6,81 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Application{
-
-	public static void main(String[] args) 
+	
+	static Scanner globalIn = new Scanner(System.in);
+	
+	static int escolherBarco() {
+		System.out.println("Escolha seu barco");
+		System.out.println("Digite '1' para: jet ski (2 espaços)");
+		System.out.println("Digite '2' para: canoa (3 espaços)");
+		System.out.println("Digite '3' para: navio cargueiro (4 espaços)");
+		System.out.println("Digite '4' para: porta avioes (5 espaços)");
+		
+		int tamanhoBarco = globalIn.nextInt();
+		
+		return tamanhoBarco;
+	}
+	
+	static boolean verificarOpcao(int opcao) {
+		if(opcao < 1 || opcao > 5) {
+			System.out.println("Tamanho inválido");
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	static String escolherDirecao()
 	{
 		
+		System.out.println("Escolha a direção do seu barco (ex: v ou h)");
+		
+		String direcaoBarco = globalIn.next();
+		
+		return direcaoBarco;
+		
+	}
+	
+	static boolean verificarDirecao(String direcao)
+	{
+		
+		if(!direcao.equals("h") && !direcao.equals("v"))
+		{
+			
+			System.out.println("Direção inválido");
+			
+			return false;
+			
+		}
+		
+		return true;
+		
+	}
+	
+	void printarTabuleiro() {
+		
+	}
+	
+	void setarBarco () {
+		
+	}
+	
+	boolean verificarPosicao() {
+		return true;
+	}
+
+	public static void main(String[] args) 
+	{	
 		Scanner in = new Scanner(System.in);
 		
 		String modoDeJogo;
 		
 		String[][] mapa = new String[8][8];
 		
-		int[] tamanhoBarco = new int[4];
+		int tamanhoBarco = 0;
 		
-		String[] direcaoBarco = new String[4];
+		String direcaoBarco = "";
 		
 		String[] posicaoBarco = new String[4];
 		
@@ -42,17 +104,9 @@ public class Application{
 			while(true)
 			{
 				
-				System.out.println("Escolha seu barco");
-				System.out.println("Digite '1' para: jet ski (2 espaços)");
-				System.out.println("Digite '2' para: canoa (3 espaços)");
-				System.out.println("Digite '3' para: navio cargueiro (4 espaços)");
-				System.out.println("Digite '4' para: porta avioes (5 espaços)");
+				tamanhoBarco = escolherBarco()+1;
 				
-				tamanhoBarco[i] = in.nextInt();
-				
-				if(tamanhoBarco[i] < 1 || tamanhoBarco[i] > 4)
-					System.out.println("Tamanho inválido");
-				else
+				if(verificarOpcao(tamanhoBarco))
 					break;
 				
 			}
@@ -60,13 +114,9 @@ public class Application{
 			while(true)
 			{
 				
-				System.out.println("Escolha a direção do seu barco (ex: v ou h)");
+				direcaoBarco = escolherDirecao();
 				
-				direcaoBarco[i] = in.next();
-				
-				if(!direcaoBarco[i].equals("v") && !direcaoBarco[i].equals("h"))
-					System.out.println("Direção inválida");
-				else
+				if(verificarDirecao(direcaoBarco))
 					break;
 				
 			}
@@ -78,21 +128,21 @@ public class Application{
 				
 				posicaoBarco[i] = in.next();
 				
-				if(posicaoBarco[i].length() > 2 || posicaoBarco[i].length() < 2)
+				if(posicaoBarco[i].length() != 2)
 					System.out.println("Posição inválida");
 				else if(Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0))) > 8 || Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1))) > 8)
 					System.out.println("Posição inválida");
-				else if(direcaoBarco[i].equals("v") && Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0))) > 8-tamanhoBarco[i])
+				else if(direcaoBarco.equals("v") && Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0))) > 8-tamanhoBarco)
 					System.out.println("Posição inválida");
-				else if(direcaoBarco[i].equals("h") && Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1))) > 8-tamanhoBarco[i])
+				else if(direcaoBarco.equals("h") && Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1))) > 8-tamanhoBarco)
 					System.out.println("Posição inválida");
 				else
 				{
 					
-					if(direcaoBarco[i].equals("v"))
+					if(direcaoBarco.equals("v"))
 					{
 						
-						for(int j = Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))+tamanhoBarco[i]; j++)
+						for(int j = Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))+tamanhoBarco-1; j++)
 						{
 							
 							if(mapa[j][Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1] != null)
@@ -103,16 +153,17 @@ public class Application{
 								break;
 								
 							}
-							else
+							
+							if(j == Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))+tamanhoBarco-1)
 								break selecao;
 							
 						}
 						
 					}
-					else if(direcaoBarco[i].equals("h"))
+					else if(direcaoBarco.equals("h"))
 					{
 						
-						for(int j = Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))+tamanhoBarco[i]; j++)
+						for(int j = Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1; j < Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))+tamanhoBarco; j++)
 						{
 							
 							if(mapa[Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1][j] != null)
@@ -123,21 +174,23 @@ public class Application{
 								break;
 								
 							}
-							else
+							
+							if(j == Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))+tamanhoBarco-1)
 								break selecao;
 							
 						}
 						
 					}
 					
+					
 				}
 				
 			}
 			
-			if(direcaoBarco[i].equals("v"))
+			if(direcaoBarco.equals("v"))
 			{
 				
-				for(int j = 0; j < tamanhoBarco[i]+1; j++)
+				for(int j = 0; j < tamanhoBarco; j++)
 				{
 					
 					mapa[Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1+j][Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1] = "b";
@@ -145,10 +198,10 @@ public class Application{
 				}
 				
 			}
-			else if(direcaoBarco[i].equals("h"))
+			else if(direcaoBarco.equals("h"))
 			{
 				
-				for(int j = 0; j < tamanhoBarco[i]+1; j++)
+				for(int j = 0; j < tamanhoBarco; j++)
 				{
 					
 					mapa[Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))-1][Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))-1+j] = "b";
@@ -176,7 +229,7 @@ public class Application{
 			
 		}
 		
-		if(modoDeJogo == "1")
+		if(modoDeJogo.equals("1"))
 		{
 			
 			String[][] mapaInimigo = new String[8][8];
@@ -193,15 +246,9 @@ public class Application{
 				while(true)
 				{
 					
-					System.out.println("Escolha seu barco");
-					System.out.println("Digite '1' para: jet ski (2 espaços)");
-					System.out.println("Digite '2' para: canoa (3 espaços)");
-					System.out.println("Digite '3' para: navio cargueiro (4 espaços)");
-					System.out.println("Digite '4' para: porta avioes (5 espaços)");
+					tamanhoBarco = escolherBarco()+1;
 					
-					tamanhoBarcoInimigo[i] = in.nextInt();
-					
-					if(tamanhoBarcoInimigo[i] < 1 || tamanhoBarcoInimigo[i] > 4)
+					if(verificarOpcao(tamanhoBarco) == false)
 						System.out.println("Tamanho inválido");
 					else
 						break;
@@ -233,9 +280,9 @@ public class Application{
 						System.out.println("Posição inválida");
 					else if(Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0))) > 8 || Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1))) > 8)
 						System.out.println("Posição inválida");
-					else if(direcaoBarcoInimigo[i].equals("v") && Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0))) > 8-tamanhoBarcoInimigo[i])
+					else if(direcaoBarcoInimigo[i].equals("v") && Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0))) > 8-tamanhoBarco)
 						System.out.println("Posição inválida");
-					else if(direcaoBarcoInimigo[i].equals("h") && Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1))) > 8-tamanhoBarcoInimigo[i])
+					else if(direcaoBarcoInimigo[i].equals("h") && Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1))) > 8-tamanhoBarco)
 						System.out.println("Posição inválida");
 					else
 					{
@@ -243,7 +290,7 @@ public class Application{
 						if(direcaoBarcoInimigo[i].equals("v"))
 						{
 							
-							for(int j = Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0)))-1; j < Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0)))+tamanhoBarcoInimigo[i]; j++)
+							for(int j = Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0)))-1; j < Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0)))+tamanhoBarco; j++)
 							{
 								
 								if(mapaInimigo[j][Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1)))-1] != null)
@@ -254,7 +301,8 @@ public class Application{
 									break;
 									
 								}
-								else
+								
+								if(j == Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(0)))+tamanhoBarco-1)
 									break selecao;
 								
 							}
@@ -263,7 +311,7 @@ public class Application{
 						else if(direcaoBarcoInimigo[i].equals("h"))
 						{
 							
-							for(int j = Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1)))-1; j < Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1)))+tamanhoBarcoInimigo[i]; j++)
+							for(int j = Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1)))-1; j < Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(1)))+tamanhoBarco; j++)
 							{
 								
 								if(mapaInimigo[Integer.parseInt(String.valueOf(posicaoBarcoInimigo[i].charAt(0)))-1][j] != null)
@@ -274,7 +322,8 @@ public class Application{
 									break;
 									
 								}
-								else
+								
+								if(j == Integer.parseInt(String.valueOf(posicaoBarco[i].charAt(1)))+tamanhoBarco-1)
 									break selecao;
 								
 							}
