@@ -749,7 +749,9 @@ public class Application{
 				while(true)
 				{
 					
-					if(contadorJogador == 14)
+					System.out.println("Passou 0");
+					
+					if(contadorInimigo == 14)
 					{
 						
 						System.out.println("Jogador 2 venceu!!");
@@ -770,8 +772,10 @@ public class Application{
 						while(true)
 						{
 							
-							if(mapa[randPosBombaY][randPosBombaX].equals(null))
+							if(mapa[randPosBombaY][randPosBombaX] == null)
 							{
+								
+								System.out.println("Passou 1");
 								
 								locaisPossiveisBombaY.remove(randPosBombaY);
 								
@@ -779,11 +783,30 @@ public class Application{
 								
 								mapa[randPosBombaY][randPosBombaX] = "0";
 								
+								for(int j = 0; j < 8; j++)
+								{
+									
+									for(int k = 0; k < 8; k++)
+									{
+										
+										if(mapa[j][k] == null || mapa[j][k] == "b")
+											System.out.print("~");
+										else
+											System.out.print(mapa[j][k]);
+										
+									}
+									
+									System.out.println();
+									
+								}
+								
 								break jogadaInimigo;
 								
 							}
 							else if(mapa[randPosBombaY][randPosBombaX].equals("b"))
 							{
+								
+								System.out.println("Passou 1");
 								
 								locaisPossiveisBombaY.remove(randPosBombaY);
 								
@@ -794,6 +817,25 @@ public class Application{
 								contadorInimigo++;
 								
 								mapa[randPosBombaY][randPosBombaX] = "X";
+								
+								for(int j = 0; j < 8; j++)
+								{
+									
+									for(int k = 0; k < 8; k++)
+									{
+										
+										if(mapa[j][k] == null || mapa[j][k] == "b")
+											System.out.print("~");
+										else
+											System.out.print(mapa[j][k]);
+										
+									}
+									
+									System.out.println();
+									
+								}
+								
+								break;
 								
 							}
 							
@@ -813,6 +855,8 @@ public class Application{
 							
 							randAcao = (int)lista.get(rand.nextInt(lista.size()));
 							
+							System.out.println(randAcao + " " + lista.size());
+							
 							lista.get(randAcao);
 							
 							if(randAcao == 0)
@@ -821,36 +865,73 @@ public class Application{
 								if(randPosBombaY+acertadosInimigo < 8)
 								{
 									
-									if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == "b")
+									if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == null)
 									{
 										
-										locaisPossiveisBombaY.remove(randPosBombaY);
+										locaisPossiveisBombaY.remove(randPosBombaY+acertadosInimigo);
 										
 										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										mapa[randPosBombaY+acertadosInimigo][randPosBombaX] = "0";
+										
+										acertadosInimigo = 0;
+										
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX].equals("b"))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY+acertadosInimigo);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										mapa[randPosBombaY+acertadosInimigo][randPosBombaX] = "X";
 										
 										acertadosInimigo++;
 										
 										contadorInimigo++;
 										
-										mapa[randPosBombaY][randPosBombaX] = "X";
-										
 										lista.remove(randAcao);
 										
-									}
-									else if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == null)
-									{
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
 										
-										locaisPossiveisBombaY.remove(randPosBombaY);
+										break;
 										
-										locaisPossiveisBombaX.remove(randPosBombaX);
-										
-										acertadosInimigo = 0;
-										
-										mapa[randPosBombaY][randPosBombaX] = "0";
-										
-										break jogadaInimigo;
-										
-									}
+									}else
+										lista.remove(randAcao);
 									
 								}
 								else
@@ -863,36 +944,73 @@ public class Application{
 								if(randPosBombaX+acertadosInimigo < 8)
 								{
 									
-									if(mapa[randPosBombaY][randPosBombaX+acertadosInimigo] == "b")
+									if(mapa[randPosBombaY][randPosBombaX+acertadosInimigo] == null)
 									{
 										
 										locaisPossiveisBombaY.remove(randPosBombaY);
 										
-										locaisPossiveisBombaX.remove(randPosBombaX);
+										locaisPossiveisBombaX.remove(randPosBombaX+acertadosInimigo);
+										
+										mapa[randPosBombaY][randPosBombaX+acertadosInimigo] = "0";
+										
+										acertadosInimigo = 0;
+										
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX].equals("b"))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX+acertadosInimigo);
+										
+										mapa[randPosBombaY][randPosBombaX+acertadosInimigo] = "X";
 										
 										acertadosInimigo++;
 										
 										contadorInimigo++;
 										
-										mapa[randPosBombaY][randPosBombaX] = "X";
-										
 										lista.remove(randAcao);
 										
-									}
-									else if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == null)
-									{
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
 										
-										locaisPossiveisBombaY.remove(randPosBombaY);
+										break;
 										
-										locaisPossiveisBombaX.remove(randPosBombaX);
-										
-										acertadosInimigo = 0;
-										
-										mapa[randPosBombaY][randPosBombaX] = "0";
-										
-										break jogadaInimigo;
-										
-									}
+									}else
+										lista.remove(randAcao);
 									
 								}
 								else
@@ -904,36 +1022,77 @@ public class Application{
 								if(randPosBombaY-acertadosInimigo >= 0)
 								{
 									
-									if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX] == "b")
+									if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX] == null)
+									{
+										
+										
+										
+										locaisPossiveisBombaY.remove(randPosBombaY-acertadosInimigo);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										mapa[randPosBombaY-acertadosInimigo][randPosBombaX] = "0";
+										
+										acertadosInimigo = 0;
+										
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX].equals("b"))
 									{
 										
 										locaisPossiveisBombaY.remove(randPosBombaY-acertadosInimigo);
 										
 										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										mapa[randPosBombaY-acertadosInimigo][randPosBombaX] = "X";
 										
 										acertadosInimigo++;
 										
 										contadorInimigo++;
 										
-										mapa[randPosBombaY][randPosBombaX] = "X";
-										
 										lista.remove(randAcao);
 										
-									}
-									else if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX] == null)
-									{
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
 										
-										locaisPossiveisBombaY.remove(randPosBombaY-acertadosInimigo);
+										System.out.println("Passou");
 										
-										locaisPossiveisBombaX.remove(randPosBombaX);
+										break;
 										
-										acertadosInimigo = 0;
-										
-										mapa[randPosBombaY-acertadosInimigo][randPosBombaX] = "0";
-										
-										break jogadaInimigo;
-										
-									}
+									}else
+										lista.remove(randAcao);
 									
 								}
 								else
@@ -946,36 +1105,76 @@ public class Application{
 								if(randPosBombaX-acertadosInimigo >= 0)
 								{
 									
-									if(mapa[randPosBombaY][randPosBombaX-acertadosInimigo] == "b")
+									if(mapa[randPosBombaY][randPosBombaX-acertadosInimigo] == null)
+									{
+										
+										
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX-acertadosInimigo);
+										
+										mapa[randPosBombaY][randPosBombaX-acertadosInimigo] = "0";
+										
+										acertadosInimigo = 0;
+										
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY][randPosBombaX-acertadosInimigo].equals("b"))
 									{
 										
 										locaisPossiveisBombaY.remove(randPosBombaY);
 										
-										locaisPossiveisBombaX.remove(randPosBombaX);
+										locaisPossiveisBombaX.remove(randPosBombaX-acertadosInimigo);
+										
+										mapa[randPosBombaY][randPosBombaX-acertadosInimigo] = "X";
 										
 										acertadosInimigo++;
 										
 										contadorInimigo++;
 										
-										mapa[randPosBombaY][randPosBombaX] = "X";
-										
 										lista.remove(randAcao);
 										
+										for(int j = 0; j < 8; j++)
+										{
+											
+											for(int k = 0; k < 8; k++)
+											{
+												
+												if(mapa[j][k] == null || mapa[j][k] == "b")
+													System.out.print("~");
+												else
+													System.out.print(mapa[j][k]);
+												
+											}
+											
+											System.out.println();
+											
+										}
+										
+										break;
+										
 									}
-									else if(mapa[randPosBombaY][randPosBombaX-acertadosInimigo] == null)
-									{
-										
-										locaisPossiveisBombaY.remove(randPosBombaY);
-										
-										locaisPossiveisBombaX.remove(randPosBombaX);
-										
-										acertadosInimigo = 0;
-										
-										mapa[randPosBombaY][randPosBombaX] = "0";
-										
-										break jogadaInimigo;
-										
-									}
+									else
+										lista.remove(randAcao);
 									
 								}
 								else
@@ -1004,10 +1203,137 @@ public class Application{
 							if(randAcao == 0)
 							{
 								
+								if(randPosBombaY+acertadosInimigo < 8)
+								{
+									
+									if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX].equals(null))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo = 0;
+										
+										mapa[randPosBombaY][randPosBombaX] = "0";
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == "b")
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo++;
+										
+										contadorInimigo++;
+										
+										mapa[randPosBombaY][randPosBombaX] = "X";
+										
+										break;
+										
+									}
+									
+								}
+								
+							}else if(randAcao == 1)
+							{
+								
 								if(randPosBombaX+acertadosInimigo < 8)
 								{
 									
-									if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX] == "b")
+									if(mapa[randPosBombaY+acertadosInimigo][randPosBombaX].equals(null))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo = 0;
+										
+										mapa[randPosBombaY][randPosBombaX] = "0";
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaX+acertadosInimigo][randPosBombaX] == "b")
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo++;
+										
+										contadorInimigo++;
+										
+										mapa[randPosBombaY][randPosBombaX] = "X";
+										
+									}
+									
+								}
+								
+							}else if(randAcao == 2)
+							{
+								
+								if(randPosBombaY-acertadosInimigo >= 0)
+								{
+									
+									if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX].equals(null))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo = 0;
+										
+										mapa[randPosBombaY][randPosBombaX] = "0";
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaY-acertadosInimigo][randPosBombaX] == "b")
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo++;
+										
+										contadorInimigo++;
+										
+										mapa[randPosBombaY][randPosBombaX] = "X";
+										
+									}
+									
+								}
+								
+							}else if(randAcao == 3)
+							{
+								
+								if(randPosBombaX-acertadosInimigo >= 0)
+								{
+									
+									if(mapa[randPosBombaX-acertadosInimigo][randPosBombaX].equals(null))
+									{
+										
+										locaisPossiveisBombaY.remove(randPosBombaY);
+										
+										locaisPossiveisBombaX.remove(randPosBombaX);
+										
+										acertadosInimigo = 0;
+										
+										mapa[randPosBombaY][randPosBombaX] = "0";
+										
+										break jogadaInimigo;
+										
+									}
+									else if(mapa[randPosBombaX-acertadosInimigo][randPosBombaX] == "b")
 									{
 										
 										locaisPossiveisBombaY.remove(randPosBombaY);
