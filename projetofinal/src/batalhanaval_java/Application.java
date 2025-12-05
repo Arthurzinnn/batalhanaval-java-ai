@@ -9,11 +9,20 @@ public class Application{
 	
 	static Scanner globalIn = new Scanner(System.in);
 	
+	static HashSet<Integer> barcos = new HashSet<Integer>();
+	
 	static int escolherBarco() {
+		
+		
+		
 		System.out.println("Escolha seu barco");
+		if(!barcos.contains(1))
 		System.out.println("Digite '1' para: jet ski (2 espaços)");
+		if(!barcos.contains(2))
 		System.out.println("Digite '2' para: canoa (3 espaços)");
+		if(!barcos.contains(3))
 		System.out.println("Digite '3' para: navio cargueiro (4 espaços)");
+		if(!barcos.contains(4))
 		System.out.println("Digite '4' para: porta avioes (5 espaços)");
 		
 		int tamanhoBarco = globalIn.nextInt();
@@ -22,10 +31,12 @@ public class Application{
 	}
 	
 	static boolean verificarOpcao(int opcao) {
-		if(opcao < 1 || opcao > 5) {
+		if(opcao < 1 || opcao > 5 || barcos.contains(opcao-1)) {
 			System.out.println("Tamanho inválido");
 			return false;
 		}
+		
+		barcos.add(opcao-1);
 		
 		return true;
 		
