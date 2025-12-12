@@ -178,8 +178,6 @@ public class Application{
 		
 		Random rand = new Random();
 		
-		ArrayList<ArrayList<String>> barcosJogador = new ArrayList<>();
-		
 		/*
 		while(true)
 		{
@@ -249,6 +247,10 @@ public class Application{
 			printarTabuleiro(mapa);
 			
 		}
+		
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 		
 		/*if(modoDeJogo.equals("1"))
 		{
@@ -334,6 +336,16 @@ public class Application{
 			int[] contadorBarcosJogador = new int[4];
 			
 			int[] contadorBarcosInimigo = new int[4];
+			
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
 			
 			jogadas:
 			while(true)
