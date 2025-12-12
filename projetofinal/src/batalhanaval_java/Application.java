@@ -65,7 +65,7 @@ public class Application{
 	}
 	
 	static boolean verificarPosDesajadaEhValida(String[][] mapa, int tamanhoBarco, String posBarco, String dirBarco) {
-		if(dirBarco == "v")
+		if(dirBarco.equals("v"))
 		{
 			
 			for(int j = Integer.parseInt(String.valueOf(posBarco.charAt(0)))-1; j < Integer.parseInt(String.valueOf(posBarco.charAt(0)))+tamanhoBarco-1; j++)
@@ -131,7 +131,30 @@ public class Application{
 		
 	}
 	
-	void setarBarco () {
+	static void setarBarco (String[][] mapa, String posicaoBarco, String direcaoBarco, int tamanhoBarco) {
+		
+		if(direcaoBarco.equals("v"))
+		{
+			
+			for(int j = 0; j < tamanhoBarco; j++)
+			{
+				
+				mapa[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1] = Integer.toString(tamanhoBarco-1);
+				
+			}
+			
+		}
+		else if(direcaoBarco.equals("h"))
+		{
+			
+			for(int j = 0; j < tamanhoBarco; j++)
+			{
+				
+				mapa[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1+j] = Integer.toString(tamanhoBarco-1);
+				
+			}
+			
+		}
 		
 	}
 	
@@ -157,6 +180,7 @@ public class Application{
 		
 		ArrayList<ArrayList<String>> barcosJogador = new ArrayList<>();
 		
+		/*
 		while(true)
 		{
 			
@@ -168,6 +192,7 @@ public class Application{
 				break;
 			
 		}
+		*/
 		
 		for(int i = 0; i < 4; i++)
 		{
@@ -219,47 +244,21 @@ public class Application{
 				
 			}
 			
-			if(direcaoBarco.equals("v"))
-			{
-				
-				for(int j = 0; j < tamanhoBarco; j++)
-				{
-					
-					mapa[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1] = "b";
-					
-					barcosJogador.add(new ArrayList<String>());
-					
-					barcosJogador.get(tamanhoBarco-2).add(String.valueOf(Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j));
-					
-				}
-				
-			}
-			else if(direcaoBarco.equals("h"))
-			{
-				
-				for(int j = 0; j < tamanhoBarco; j++)
-				{
-					
-					mapa[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1+j] = "b";
-					
-					barcosJogador.add(new ArrayList<String>());
-					
-					barcosJogador.get(tamanhoBarco-2).add(String.valueOf(Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j));
-					
-				}
-				
-			}
+			setarBarco(mapa,posicaoBarco,direcaoBarco,tamanhoBarco);
 			
 			printarTabuleiro(mapa);
 			
 		}
 		
-		if(modoDeJogo.equals("1"))
+		/*if(modoDeJogo.equals("1"))
 		{
+		*/
 			
 			String[][] mapaInimigo = new String[8][8];
 			
 			ArrayList<ArrayList<String>> barcosInimigo = new ArrayList<>();
+			
+			barcosEscolhidos.clear();
 			
 			for(int i = 0; i < 4; i++)
 			{
@@ -279,13 +278,24 @@ public class Application{
 				while(true)
 				{
 					
-					System.out.println("Escolha a direção do seu barco (ex: v ou h)");
-					
-					direcaoBarco = in.next();
-					
-					if(!direcaoBarco.equals("v") && !direcaoBarco.equals("h"))
-						System.out.println("Direção inválida");
+					if(verificarDirecao(direcaoBarco) == false)
+						System.out.println("Tamanho inválido");
 					else
+					{
+						
+						barcosEscolhidos.add(tamanhoBarco-1);
+						
+						break;
+						
+					}
+					
+				}
+				while(true)
+				{
+					
+					direcaoBarco = escolherDirecao();
+					
+					if(verificarDirecao(direcaoBarco))
 						break;
 					
 				}
@@ -311,44 +321,19 @@ public class Application{
 					
 				}
 				
-				if(direcaoBarco.equals("v"))
-				{
-					
-					for(int j = 0; j < tamanhoBarco; j++)
-					{
-						
-						mapaInimigo[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1] = "b";
-						
-						barcosInimigo.add(new ArrayList<String>());
-						
-						barcosInimigo.get(tamanhoBarco-2).add(String.valueOf(Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j));
-						
-					}
-					
-				}
-				else if(direcaoBarco.equals("h"))
-				{
-					
-					for(int j = 0; j < tamanhoBarco; j++)
-					{
-						
-						mapaInimigo[Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1][Integer.parseInt(String.valueOf(posicaoBarco.charAt(1)))-1] = "b";
-						
-						barcosInimigo.add(new ArrayList<String>());
-						
-						barcosInimigo.get(tamanhoBarco-2).add(String.valueOf(Integer.parseInt(String.valueOf(posicaoBarco.charAt(0)))-1+j));
-						
-					}
-					
-				}
+				setarBarco(mapaInimigo,posicaoBarco,direcaoBarco,tamanhoBarco);
 				
-				printarTabuleiro(mapa);
+				printarTabuleiro(mapaInimigo);
 				
 			}
 			
 			int contadorJogador = 0;
 			
 			int contadorInimigo = 0;
+			
+			int[] contadorBarcosJogador = new int[4];
+			
+			int[] contadorBarcosInimigo = new int[4];
 			
 			jogadas:
 			while(true)
@@ -376,33 +361,6 @@ public class Application{
 						System.out.println("Posição inválida");
 					else if(Integer.parseInt(String.valueOf(posicaoBomba1.charAt(0))) > 8 || Integer.parseInt(String.valueOf(posicaoBomba1.charAt(1))) > 8)
 						System.out.println("Posição inválida");
-					else if(mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1] == "b")
-					{
-						
-						mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1] = "X";
-						
-						contadorJogador++;
-						
-						
-						
-						for(int j = 0; j < 8; j++)
-						{
-							
-							for(int k = 0; k < 8; k++)
-							{
-								
-								if(mapaInimigo[j][k] == null || mapaInimigo[j][k] == "b")
-									System.out.print("~");
-								else
-									System.out.print(mapaInimigo[j][k]);
-								
-							}
-							
-							System.out.println();
-							
-						}
-						
-					}
 					else if(mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1] == null)
 					{
 						
@@ -414,7 +372,7 @@ public class Application{
 							for(int k = 0; k < 8; k++)
 							{
 								
-								if(mapaInimigo[j][k] == null || mapaInimigo[j][k] == "b")
+								if(mapaInimigo[j][k] == null || (!mapaInimigo[j][k].equals("X") && !mapaInimigo[j][k].equals("0")))
 									System.out.print("~");
 								else
 									System.out.print(mapaInimigo[j][k]);
@@ -428,10 +386,44 @@ public class Application{
 						break;
 						
 					}
-					else if(mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1] == "0")
+					else if(mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1].equals("0") || mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1].equals("X"))
 					{
 						
 						System.out.println("Posição já escolhida!");
+						
+					}
+					else
+					{
+						
+						int numBarcoAcertado = Integer.parseInt(mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1]);
+						
+						contadorBarcosJogador[numBarcoAcertado-1]++;
+						
+						mapaInimigo[Integer.valueOf(String.valueOf(posicaoBomba1.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba1.charAt(1)))-1] = "X";
+						
+						contadorJogador++;
+						
+						
+						
+						for(int j = 0; j < 8; j++)
+						{
+							
+							for(int k = 0; k < 8; k++)
+							{
+								
+								if(mapaInimigo[j][k] == null || (!mapaInimigo[j][k].equals("X") && !mapaInimigo[j][k].equals("0")))
+									System.out.print("~");
+								else
+									System.out.print(mapaInimigo[j][k]);
+								
+							}
+							
+							System.out.println();
+							
+						}
+						
+						if(contadorBarcosJogador[numBarcoAcertado-1] == numBarcoAcertado+1)
+							System.out.println("Barco " + numBarcoAcertado + " Eliminado!");
 						
 					}
 					
@@ -458,31 +450,6 @@ public class Application{
 						System.out.println("Posição inválida");
 					else if(Integer.parseInt(String.valueOf(posicaoBomba2.charAt(0))) > 8 || Integer.parseInt(String.valueOf(posicaoBomba2.charAt(1))) > 8)
 						System.out.println("Posição inválida");
-					else if(mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1] == "b")
-					{
-						
-						mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1] = "X";
-						
-						contadorInimigo++;
-						
-						for(int j = 0; j < 8; j++)
-						{
-							
-							for(int k = 0; k < 8; k++)
-							{
-								
-								if(mapa[j][k] == null || mapa[j][k] == "b")
-									System.out.print("~");
-								else
-									System.out.print(mapa[j][k]);
-								
-							}
-							
-							System.out.println();
-							
-						}
-						
-					}
 					else if(mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1] == null)
 					{
 						
@@ -494,7 +461,7 @@ public class Application{
 							for(int k = 0; k < 8; k++)
 							{
 								
-								if(mapa[j][k] == null || mapa[j][k] == "b")
+								if(mapa[j][k] == null || (!mapa[j][k].equals("X") && !mapa[j][k].equals("0")))
 									System.out.print("~");
 								else
 									System.out.print(mapa[j][k]);
@@ -508,18 +475,52 @@ public class Application{
 						break;
 						
 					}
-					else if(mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1] == "0")
+					else if(mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1].equals("0") || mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1].equals("X"))
 					{
 						
 						System.out.println("Posição já escolhida!");
+						
+					}
+					else
+					{
+						
+						int numBarcoAcertado = Integer.parseInt(mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1]);
+						
+						contadorBarcosInimigo[numBarcoAcertado-1]++;
+						
+						mapa[Integer.valueOf(String.valueOf(posicaoBomba2.charAt(0)))-1][Integer.valueOf(String.valueOf(posicaoBomba2.charAt(1)))-1] = "X";
+						
+						contadorInimigo++;
+						
+						for(int j = 0; j < 8; j++)
+						{
+							
+							for(int k = 0; k < 8; k++)
+							{
+								
+								if(mapa[j][k] == null || (!mapa[j][k].equals("X") && !mapa[j][k].equals("0")))
+									System.out.print("~");
+								else
+									System.out.print(mapa[j][k]);
+								
+							}
+							
+							System.out.println();
+							
+						}
+						
+						if(contadorBarcosInimigo[numBarcoAcertado-1] == numBarcoAcertado+1)
+							System.out.println("Barco " + numBarcoAcertado + " Eliminado!");
 						
 					}
 					
 				}
 				
 			}
-			
+		/*
 		}
+		*/
+		/*
 		else if(modoDeJogo.equals("2"))
 		{
 			
@@ -1332,7 +1333,7 @@ public class Application{
 				
 			}
 			
-		}
+		}*/
 		
 	}
 	
